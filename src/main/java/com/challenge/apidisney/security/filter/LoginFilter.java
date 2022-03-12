@@ -1,7 +1,7 @@
 package com.challenge.apidisney.security.filter;
 
 import com.challenge.apidisney.domain.entity.User;
-import com.challenge.apidisney.security.service.AuthenticationService;
+import com.challenge.apidisney.security.services.AuthenticationService;
 import com.challenge.apidisney.utils.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;

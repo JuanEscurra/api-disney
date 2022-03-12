@@ -2,6 +2,7 @@ package com.challenge.apidisney.controllers;
 
 import com.challenge.apidisney.domain.dao.UserRepository;
 import com.challenge.apidisney.domain.entity.User;
+import com.challenge.apidisney.services.EmailService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "Conjunto de operaciones generales para los usuarios", tags = "Generales")
 public class MainController {
 
+    private EmailService emailService;
+
     private final UserRepository repository;
 
     @Autowired
-    public MainController(UserRepository repository) {
+    public MainController(UserRepository repository, EmailService emailService ) {
         this.repository = repository;
+        this.emailService = emailService;
     }
 
     @PostMapping("/auth/register")
@@ -28,8 +32,11 @@ public class MainController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         User newUser = repository.save(user);
 
-        return newUser != null ?
-                new ResponseEntity<>(newUser, HttpStatus.CREATED)
-                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(newUser != null) {
+            emailService.sendEmail(user.getEmail());
+            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

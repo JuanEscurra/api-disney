@@ -1,6 +1,5 @@
-package com.challenge.apidisney.security.service;
+package com.challenge.apidisney.security.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
