@@ -10,8 +10,9 @@ import java.util.List;
 @Repository
 public interface CharacterRepository extends JpaRepository<Character, Long> {
 
-    List<Character> findByNameContaining(String name);
-    List<Character> findByAge(Integer age);
+    <T> List<T> findByNameContaining(String name, Class<T> type);
+
+    <T> List<T> findByAge(Integer age, Class<T> type);
 
     @Query("select c from Character c join c.movies m where m.id=?1")
     <T> List<T> findByMovies(long id, Class<T> type);

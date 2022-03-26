@@ -1,13 +1,16 @@
 package com.challenge.apidisney.utils;
 
+import lombok.Builder;
+
+@Builder
 public class ErrorResponse {
 
     private String title;
     private String URI;
     private int status;
-    private String detail;
+    private Object detail;
 
-    public ErrorResponse(String title, String URI, int status, String detail) {
+    public ErrorResponse(String title, String URI, int status, Object detail) {
         this.title = title;
         this.URI = URI;
         this.status = status;
@@ -38,11 +41,11 @@ public class ErrorResponse {
         this.status = status;
     }
 
-    public String getDetail() {
+    public Object getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail) {
+    public void setDetail(Object detail) {
         this.detail = detail;
     }
 }

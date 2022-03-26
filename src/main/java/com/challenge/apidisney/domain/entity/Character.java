@@ -20,30 +20,24 @@ public class Character implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "Identificador unico del personaje", position = 1)
     private Long id;
 
-    @ApiModelProperty(value = "Imagen del personaje", position = 2)
     private String image;
 
     @Column(unique = true, nullable = false)
-    @ApiModelProperty(value = "Nombre del personaje", required = true, example = "Micky mouse", position = 3)
     private String name;
 
-    @ApiModelProperty(value = "Edad del personaje", example = "12", position = 4)
+    @Column(scale = 8)
     private Integer age;
 
     @Column(scale = 2)
-    @ApiModelProperty(value = "Peso del personaje", example = "12.54", position = 5)
     private Float weight;
 
     @Column(length = 1200)
-    @ApiModelProperty(value = "Historia del personaje", position = 6)
     private String history;
 
     @ManyToMany(mappedBy = "characters")
     @JsonBackReference
-    @ApiModelProperty(value = "Conjunto de peliculas en las que ha participado", position = 7)
     private Set<Movie> movies;
 
     @Override

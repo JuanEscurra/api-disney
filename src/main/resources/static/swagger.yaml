@@ -1,0 +1,490 @@
+---
+swagger: '2.0'
+info:
+  description: |-
+    API para explorar el mundo de Disney, la cual permitirá conocer y modificar los
+    personajes que lo componen y entender en qué películas estos participaron.
+  version: v1.0.0
+  title: REST API - DISNEY (CHALLENGE ALKEMY)
+  termsOfService: Terminos y condiciones
+  contact:
+    name: Juan Escurra
+    url: https://github.com/JuanEscurra
+    email: j.escurra.1999@gmail.com
+  license:
+    name: License of API
+    url: API license URL
+host: localhost:8080
+basePath: "/"
+tags:
+  - name: Generales
+    description: Conjunto de operaciones generales para los usuarios
+  - name: Películas
+    description: Conjunto de operaciones para manipular entidades de películas
+  - name: Personajes
+    description: Conjunto de operaciones para manipular entidades de personajes
+paths:
+  "/auth/register":
+    post:
+      tags:
+        - Generales
+      summary: register
+      operationId: registerUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - "*/*"
+      parameters:
+        - in: body
+          name: user
+          description: user
+          required: true
+          schema:
+            "$ref": "#/definitions/UserDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/UserDTO"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/auth/login":
+    post:
+      tags:
+        - Generales
+      consumes:
+        - application/json
+      produces:
+        - "*/*"
+      parameters:
+        - in: body
+          name: user
+          description: user
+          required: true
+          schema:
+            "$ref": "#/definitions/UserDTO"
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      summary: login
+  "/characters":
+    get:
+      tags:
+        - Personajes
+      summary: Busca personajes según la coincidencia de sus nombres (%_%))
+      operationId: findByNameUsingGET
+      produces:
+        - "*/*"
+      parameters:
+        - name: name
+          in: query
+          description: name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/CharacterDTO"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Personajes
+      summary: Guarda un personaje
+      operationId: saveUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: character
+          description: character
+          required: true
+          schema:
+            "$ref": "#/definitions/CharacterDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/CharacterDTO"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Personajes
+      summary: Guarda un personaje
+      operationId: saveUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: character
+          description: character
+          required: true
+          schema:
+            "$ref": "#/definitions/CharacterDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/CharacterDTO"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/characters/{id}":
+    get:
+      tags:
+        - Personajes
+      summary: Busca un personaje por id ingresado
+      operationId: findByIdUsingGET
+      produces:
+        - "*/*"
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/CharacterDTO"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Personajes
+      summary: Elimina un personaje por id ingresado
+      operationId: deleteByIdUsingDELETE
+      produces:
+        - "*/*"
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  "/movies":
+    get:
+      tags:
+        - Películas
+      summary: Buscar películas por coincidencias con el nombre (%_%)
+      operationId: findByNameUsingGET_1
+      produces:
+        - "*/*"
+      parameters:
+        - name: name
+          in: query
+          description: name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/MovieITF"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Películas
+      summary: Guarda un película
+      operationId: saveUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - "*/*"
+      parameters:
+        - in: body
+          name: movie
+          description: movie
+          required: true
+          schema:
+            "$ref": "#/definitions/MovieDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/MovieDTO"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Películas
+      summary: Guarda un película
+      operationId: saveUsingPUT_1
+      consumes:
+        - application/json
+      produces:
+        - "*/*"
+      parameters:
+        - in: body
+          name: movie
+          description: movie
+          required: true
+          schema:
+            "$ref": "#/definitions/MovieDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/MovieDTO"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/movies/{id}":
+    get:
+      tags:
+        - Películas
+      summary: Busca una película según su identificador
+      operationId: findByIdUsingGET_1
+      produces:
+        - "*/*"
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/MovieDTO"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Películas
+      summary: Elimina un personaje por el identificador
+      operationId: deleteByIdUsingDELETE_1
+      produces:
+        - "*/*"
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+definitions:
+  CharacterDTO:
+    title: CharacterDTO
+    allOf:
+      - "$ref": "#/definitions/CharacterIN"
+      - type: object
+        required:
+          - name
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: Identificador unico del personaje
+          image:
+            type: string
+            description: Imagen del personaje
+          name:
+            type: string
+            example: Micky mouse
+            description: Nombre del personaje
+          age:
+            type: integer
+            format: int32
+            example: 12
+            description: Edad del personaje
+          weight:
+            type: number
+            format: float
+            example: 12.54
+            description: Peso del personaje
+          history:
+            type: string
+            description: Historia del personaje
+          movies:
+            type: array
+            description: Conjunto de peliculas en las que ha participado
+            items:
+              "$ref": "#/definitions/MovieDTO"
+        title: Character
+        description: Representa a un personaje de disney
+    description: Representa a un personaje de disney
+  CharacterIN:
+    type: object
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificador unico del personaje
+      image:
+        type: string
+        description: Imagen del personaje
+      name:
+        type: string
+        description: Nombre del personaje
+    title: CharacterIN
+    description: Representa un personaje de disney, pero con reducida información.
+  MovieDTO:
+    type: object
+    required:
+      - title
+      - qualification
+    properties:
+      characters:
+        type: array
+        items:
+          "$ref": "#/definitions/CharacterDTO"
+      genres:
+        type: array
+        items:
+          "$ref": "#/definitions/GenreDTO"
+      id:
+        type: integer
+        format: int64
+        description: Identificador unico de la pelicula
+      image:
+        type: string
+        description: Imagen representativa de la pelicula
+      title:
+        type: string
+        description: Titulo de la pelicula
+      creationDate:
+        type: string
+        description: Fecha de estreno de la pelicula
+        format: yyyy-MM-dd
+      qualification:
+        type: integer
+        format: int32
+        description: Valoración de la pelicula
+    title: MovieDTO
+  MovieITF:
+    type: object
+    properties:
+      creationDate:
+        type: string
+        format: date
+      id:
+        type: integer
+        format: int64
+      image:
+        type: string
+      title:
+        type: string
+    title: MovieITF
+  UserDTO:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: string
+        description: email del usuario
+      password:
+        type: string
+        description: contraseña del usuario
+    title: UserDTO
+  GenreDTO:
+    description: Representa un genero de una pelicula
+    type: object
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+        description: identificador unico
+      name:
+        type: string
+        minimum: 3
+        description: Nombre del genero de pelicula
+      image:
+        type: string
+        description: url de la imagen representativa

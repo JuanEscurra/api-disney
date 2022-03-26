@@ -1,0 +1,574 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: j.escurra.1999@gmail.com
+    name: Juan Escurra
+    url: https://github.com/JuanEscurra
+  description: |-
+    API para explorar el mundo de Disney, la cual permitirá conocer y modificar los
+    personajes que lo componen y entender en qué películas estos participaron.
+  license:
+    name: License of API
+    url: API license URL
+  termsOfService: Terminos y condiciones
+  title: REST API - DISNEY (CHALLENGE ALKEMY)
+  version: v1.0.0
+servers:
+- url: //localhost:8080/
+tags:
+- description: Conjunto de operaciones generales para los usuarios
+  name: Generales
+- description: Conjunto de operaciones para manipular entidades de películas
+  name: Películas
+- description: Conjunto de operaciones para manipular entidades de personajes
+  name: Personajes
+paths:
+  /auth/register:
+    post:
+      deprecated: false
+      operationId: registerUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+        description: user
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: register
+      tags:
+      - Generales
+      x-codegen-request-body-name: user
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /auth/login:
+    post:
+      responses:
+        "200":
+          content: {}
+          description: OK
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      summary: login
+      tags:
+      - Generales
+      x-accepts: application/json
+  /characters:
+    get:
+      deprecated: false
+      operationId: findByNameUsingGET
+      parameters:
+      - description: name
+        in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/Character'
+                type: array
+          description: OK
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Busca personajes según la coincidencia de sus nombres (%_%))
+      tags:
+      - Personajes
+      x-accepts: '*/*'
+    post:
+      deprecated: false
+      operationId: saveUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+        description: character
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Guarda un personaje
+      tags:
+      - Personajes
+      x-codegen-request-body-name: character
+      x-contentType: application/json
+      x-accepts: application/json
+    put:
+      deprecated: false
+      operationId: saveUsingPUT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+        description: character
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Guarda un personaje
+      tags:
+      - Personajes
+      x-codegen-request-body-name: character
+      x-contentType: application/json
+      x-accepts: application/json
+  /characters/{id}:
+    delete:
+      deprecated: false
+      operationId: deleteByIdUsingDELETE
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content: {}
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      summary: Elimina un personaje por id ingresado
+      tags:
+      - Personajes
+      x-accepts: application/json
+    get:
+      deprecated: false
+      operationId: findByIdUsingGET
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Character'
+          description: OK
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Busca un personaje por id ingresado
+      tags:
+      - Personajes
+      x-accepts: '*/*'
+  /movies:
+    get:
+      deprecated: false
+      operationId: findByNameUsingGET_1
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/MovieITF'
+                type: array
+          description: OK
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Buscar películas por coincidencias con el nombre (%_%)
+      tags:
+      - Películas
+      x-accepts: '*/*'
+    post:
+      deprecated: false
+      operationId: saveUsingPOST_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+        description: movie
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Guarda un película
+      tags:
+      - Películas
+      x-codegen-request-body-name: movie
+      x-contentType: application/json
+      x-accepts: '*/*'
+    put:
+      deprecated: false
+      operationId: saveUsingPUT_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+        description: movie
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Guarda un película
+      tags:
+      - Películas
+      x-codegen-request-body-name: movie
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /movies/{id}:
+    delete:
+      deprecated: false
+      operationId: deleteByIdUsingDELETE_1
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content: {}
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      summary: Elimina un personaje por el identificador
+      tags:
+      - Películas
+      x-accepts: application/json
+    get:
+      deprecated: false
+      operationId: findByIdUsingGET_1
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: OK
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      summary: Busca una película según su identificador
+      tags:
+      - Películas
+      x-accepts: '*/*'
+components:
+  schemas:
+    Character:
+      allOf:
+      - $ref: '#/components/schemas/CharacterIN'
+      - $ref: '#/components/schemas/Character_1'
+      description: Representa a un personaje de disney
+      title: Character
+    CharacterIN:
+      description: Representa un personaje de disney, pero con reducida información.
+      properties:
+        id:
+          description: Identificador unico del personaje
+          format: int64
+          type: integer
+        image:
+          description: Imagen del personaje
+          type: string
+        name:
+          description: Nombre del personaje
+          type: string
+      required:
+      - name
+      title: CharacterIN
+      type: object
+    Genre:
+      description: Representa un genero de una pelicula
+      example:
+        image: image
+        name: name
+        id: 0
+      properties:
+        id:
+          description: Identificador unico del genero
+          format: int32
+          type: integer
+        name:
+          description: Nombre del genero
+          type: string
+        image:
+          description: Link de la imagen representativa
+          type: string
+      title: Genre
+      type: object
+    Movie:
+      example:
+        characters:
+        - null
+        - null
+        image: image
+        qualification: 1
+        genres:
+        - image: image
+          name: name
+          id: 0
+        - image: image
+          name: name
+          id: 0
+        id: 6
+        title: title
+        creationDate: creationDate
+      properties:
+        characters:
+          items:
+            $ref: '#/components/schemas/Character'
+          type: array
+        genres:
+          items:
+            $ref: '#/components/schemas/Genre'
+          type: array
+        id:
+          description: Identificador unico de la pelicula
+          format: int64
+          type: integer
+        image:
+          description: Imagen representativa de la pelicula
+          type: string
+        title:
+          description: Titulo de la pelicula
+          type: string
+        creationDate:
+          description: Fecha de estreno de la pelicula
+          type: string
+        qualification:
+          description: Valoración de la pelicula
+          format: int32
+          type: integer
+      title: Movie
+      type: object
+    MovieITF:
+      example:
+        image: image
+        id: 0
+        creationDate: 2000-01-23
+        title: title
+      properties:
+        creationDate:
+          format: date
+          type: string
+        id:
+          format: int64
+          type: integer
+        image:
+          type: string
+        title:
+          type: string
+      title: MovieITF
+      type: object
+    User:
+      example:
+        password: password
+        id: 0
+        email: email
+      properties:
+        email:
+          type: string
+        id:
+          format: int64
+          type: integer
+        password:
+          type: string
+      title: User
+      type: object
+    UserDTO:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      title: UserDTO
+      type: object
+    Character_1:
+      description: Representa a un personaje de disney
+      properties:
+        id:
+          description: Identificador unico del personaje
+          format: int64
+          type: integer
+        image:
+          description: Imagen del personaje
+          type: string
+        name:
+          description: Nombre del personaje
+          example: Micky mouse
+          type: string
+        age:
+          description: Edad del personaje
+          example: 12
+          format: int32
+          type: integer
+        weight:
+          description: Peso del personaje
+          example: 12.54
+          format: float
+          type: number
+        history:
+          description: Historia del personaje
+          type: string
+        movies:
+          description: Conjunto de peliculas en las que ha participado
+          items:
+            $ref: '#/components/schemas/Movie'
+          type: array
+      required:
+      - name
+      title: Character
+      type: object
+x-original-swagger-version: "2.0"
+

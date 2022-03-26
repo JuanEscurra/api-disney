@@ -2,8 +2,9 @@ package com.challenge.apidisney.controllers;
 
 import com.challenge.apidisney.domain.dao.UserRepository;
 import com.challenge.apidisney.domain.entity.User;
+import com.challenge.apidisney.dto.UserDTO;
 import com.challenge.apidisney.services.EmailService;
-import io.swagger.annotations.Api;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,25 +13,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
-@Api(description = "Conjunto de operaciones generales para los usuarios", tags = "Generales")
 public class MainController {
 
-    private EmailService emailService;
-
+    private final EmailService emailService;
     private final UserRepository repository;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public MainController(UserRepository repository, EmailService emailService ) {
+    public MainController(UserRepository repository, EmailService emailService, ObjectMapper mapper ) {
         this.repository = repository;
         this.emailService = emailService;
+        this.objectMapper = mapper;
     }
 
     @PostMapping("/auth/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
+    public ResponseEntity<User> register(@Valid @RequestBody UserDTO user) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        User newUser = repository.save(user);
+
+        User newUser = repository.save(objectMapper.convertValue(user, User.class));
 
         if(newUser != null) {
             emailService.sendEmail(user.getEmail());
